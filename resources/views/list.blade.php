@@ -39,14 +39,14 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title">Add New Item</h4>
+                            <h4 class="modal-title" id="panelTitle">Add New Item</h4>
                         </div>
                         <div class="modal-body">
                             <p><input type="text" class="form-control" id="addListItem"></p>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal" style="display: none;">Close</button>
-                            <button type="button" class="btn btn-primary" style="display: none;">Save changes</button>
+                            <button type="button" class="btn btn-default" id="deleteItemBtn" data-dismiss="modal" style="display: none;">Delete</button>
+                            <button type="button" class="btn btn-primary" id="saveItemBtn" style="display: none;">Save changes</button>
                             <button type="button" class="btn btn-primary" id="addListBtn">Add Item</button>
                         </div>
                     </div><!-- /.modal-content -->
@@ -68,7 +68,11 @@
             $(".listItem").each(function () {
                 $(this).click(function (event) {
                     var listItemText = $(this).text();
+                    $("#panelTitle").text("Edit Item");
                     $('#addListItem').val(listItemText);
+                    $('#deleteItemBtn').show();
+                    $('#saveItemBtn').show();
+                    $('#addListBtn').hide();
                 });
             });
         });
