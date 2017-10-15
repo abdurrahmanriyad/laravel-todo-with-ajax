@@ -18,16 +18,16 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">Laravel Todo with ajax
-                            <a href="#" class="pull-right" data-toggle="modal" data-target="#editList"><i class="fa fa-plus" aria-hidden="true"></i></a>
+                            <a href="#" class="pull-right"  data-toggle="modal" data-target="#editList"><i class="fa fa-plus" aria-hidden="true"></i></a>
                         </h3>
                     </div>
                     <div class="panel-body">
                         <ul class="list-group">
-                            <li class="list-group-item">Cras justo odio</li>
-                            <li class="list-group-item">Dapibus ac facilisis in</li>
-                            <li class="list-group-item">Morbi leo risus</li>
-                            <li class="list-group-item">Porta ac consectetur ac</li>
-                            <li class="list-group-item">Vestibulum at eros</li>
+                            <li class="list-group-item listItem" data-toggle="modal" data-target="#editList">Cras justo odio</li>
+                            <li class="list-group-item listItem" data-toggle="modal" data-target="#editList">Dapibus ac facilisis in</li>
+                            <li class="list-group-item listItem" data-toggle="modal" data-target="#editList">Morbi leo risus</li>
+                            <li class="list-group-item listItem" data-toggle="modal" data-target="#editList">Porta ac consectetur ac</li>
+                            <li class="list-group-item listItem" data-toggle="modal" data-target="#editList">Vestibulum at eros</li>
                         </ul>
                     </div>
                 </div>
@@ -56,11 +56,22 @@
         </div>
     </div>
 
-<script
-        src="http://code.jquery.com/jquery-3.2.1.min.js"
-        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-        crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+    <script
+            src="http://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <script>
+        $(document).ready(function () {
+            $(".listItem").each(function () {
+                $(this).click(function (event) {
+                    var listItemText = $(this).text();
+                    $('#addListItem').val(listItemText);
+                });
+            });
+        });
+    </script>
 </body>
 </html>
