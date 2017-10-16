@@ -18,7 +18,7 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">Laravel Todo with ajax
-                            <a href="#" class="pull-right"  data-toggle="modal" data-target="#editList"><i class="fa fa-plus" aria-hidden="true"></i></a>
+                            <a href="#" id="addNewList" class="pull-right"  data-toggle="modal" data-target="#editList"><i class="fa fa-plus" aria-hidden="true"></i></a>
                         </h3>
                     </div>
                     <div class="panel-body">
@@ -42,6 +42,7 @@
                             <h4 class="modal-title" id="panelTitle">Add New Item</h4>
                         </div>
                         <div class="modal-body">
+                            {{ csrf_field() }}
                             <p><input type="text" class="form-control" id="addListItem"></p>
                         </div>
                         <div class="modal-footer">
@@ -73,6 +74,22 @@
                     $('#deleteItemBtn').show();
                     $('#saveItemBtn').show();
                     $('#addListBtn').hide();
+                });
+            });
+
+            $("#addNewList").click(function () {
+                $("#panelTitle").text("Add New Item");
+                $('#addListItem').val("");
+                $('#deleteItemBtn').hide();
+                $('#saveItemBtn').hide();
+                $('#addListBtn').show();
+            });
+
+            $("#addListBtn").click(function (event) {
+                var listText = $("#addListItem").val();
+                $.post(
+                    'list', { 'listText':listText, '_token':$('input[name=_token]').val() }, function (data) {
+                    console.log(data);
                 });
             });
         });
