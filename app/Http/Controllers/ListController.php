@@ -9,7 +9,8 @@ class ListController extends Controller
 {
     public function index()
     {
-        return view('list');
+        $data['items'] = Item::all();
+        return view('list', $data);
     }
 
     public function create(Request $request)
@@ -18,5 +19,10 @@ class ListController extends Controller
             'item' => $request->listText
         ]);
         return 'Done';
+    }
+
+    public function destroy(Request $request)
+    {
+        Item::destroy($request->itemId);
     }
 }

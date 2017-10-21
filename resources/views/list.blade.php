@@ -21,13 +21,14 @@
                             <a href="#" id="addNewList" class="pull-right"  data-toggle="modal" data-target="#editList"><i class="fa fa-plus" aria-hidden="true"></i></a>
                         </h3>
                     </div>
-                    <div class="panel-body">
+                    <div class="panel-body" id="itemsBody">
                         <ul class="list-group">
-                            <li class="list-group-item listItem" data-toggle="modal" data-target="#editList">Cras justo odio</li>
-                            <li class="list-group-item listItem" data-toggle="modal" data-target="#editList">Dapibus ac facilisis in</li>
-                            <li class="list-group-item listItem" data-toggle="modal" data-target="#editList">Morbi leo risus</li>
-                            <li class="list-group-item listItem" data-toggle="modal" data-target="#editList">Porta ac consectetur ac</li>
-                            <li class="list-group-item listItem" data-toggle="modal" data-target="#editList">Vestibulum at eros</li>
+                            @foreach($items as $item)
+                                <li class="list-group-item listItem" data-toggle="modal" data-target="#editList">
+                                    {{ $item->item }}
+                                    <input type="hidden" value="{{ $item->id }}" id="itemId">
+                                </li>
+                            @endforeach
                         </ul>
                     </div>
                 </div>
@@ -43,12 +44,13 @@
                         </div>
                         <div class="modal-body">
                             {{ csrf_field() }}
+                            <input type="hidden" id="itemIdInModal">
                             <p><input type="text" class="form-control" id="addListItem"></p>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-default" id="deleteItemBtn" data-dismiss="modal" style="display: none;">Delete</button>
+                            <button type="button" class="btn btn-danger" id="deleteItemBtn" data-dismiss="modal" style="display: none;">Delete</button>
                             <button type="button" class="btn btn-primary" id="saveItemBtn" style="display: none;">Save changes</button>
-                            <button type="button" class="btn btn-primary" id="addListBtn">Add Item</button>
+                            <button type="button" class="btn btn-primary" id="addListBtn" data-dismiss="modal">Add Item</button>
                         </div>
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal-dialog -->
@@ -66,30 +68,51 @@
 
     <script>
         $(document).ready(function () {
-            $(".listItem").each(function () {
-                $(this).click(function (event) {
-                    var listItemText = $(this).text();
-                    $("#panelTitle").text("Edit Item");
-                    $('#addListItem').val(listItemText);
-                    $('#deleteItemBtn').show();
-                    $('#saveItemBtn').show();
-                    $('#addListBtn').hide();
-                });
+            // $(document)
+            $(document).on('click', '.listItem', function(event) {
+                /*
+                 *on click each list item
+                 */
+                var listItemText = $.trim($(this).text());
+                var itemId = $(this).find("#itemId").val()
+//                console.log(itemId);
+                $("#panelTitle").text("Edit Item");
+                $('#addListItem').val(listItemText);
+                $('#deleteItemBtn').show();
+                $('#saveItemBtn').show();
+                $('#addListBtn').hide();
+                $('#itemIdInModal').val(itemId);
             });
-
-            $("#addNewList").click(function () {
+            $(document).on('click', '#addNewList', function(event) {
+                /*
+                 *on click add new item
+                 */
                 $("#panelTitle").text("Add New Item");
                 $('#addListItem').val("");
                 $('#deleteItemBtn').hide();
                 $('#saveItemBtn').hide();
                 $('#addListBtn').show();
             });
+//
+            $("#deleteItemBtn").on('click', function(){
+                var itemId = $('#itemIdInModal').val();
+                $.post(
+                    'list/delete', { 'itemId':itemId, '_token':$('input[name=_token]').val() }, function (data) {
+                    console.log(data);
+                    $('#itemsBody').load(location.href + ' #itemsBody');
+                });
+            });
 
             $("#addListBtn").click(function (event) {
                 var listText = $("#addListItem").val();
+                /*
+                 * listtext holds the data to be sent
+                 * token is sent for csrf
+                 *
+                 */
                 $.post(
                     'list', { 'listText':listText, '_token':$('input[name=_token]').val() }, function (data) {
-                    console.log(data);
+                    $('#itemsBody').load(location.href + ' #itemsBody');
                 });
             });
         });
