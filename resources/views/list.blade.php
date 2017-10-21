@@ -98,7 +98,7 @@
                 var itemId = $('#itemIdInModal').val();
                 $.post(
                     'list/delete', { 'itemId':itemId, '_token':$('input[name=_token]').val() }, function (data) {
-                    $('#itemsBody').load(location.href + ' #itemsBody');
+                    $('#itemsBody').load(location.href + ' #itemsBody > *');
                 });
             });
 
@@ -107,7 +107,7 @@
                 var itemValue = $('#addListItem').val();
                 $.post(
                         'list/edit', { 'itemId':itemId, 'itemValue':itemValue, '_token':$('input[name=_token]').val() }, function (data) {
-                        $('#itemsBody').load(location.href + ' #itemsBody');
+                        $('#itemsBody').load(location.href + ' #itemsBody > *');
                 });
             });
 
@@ -120,7 +120,7 @@
                  */
                 $.post(
                     'list', { 'listText':listText, '_token':$('input[name=_token]').val() }, function (data) {
-                    $('#itemsBody').load(location.href + ' #itemsBody');
+                    $('#itemsBody').load(location.href + ' #itemsBody > *');
                 });
             });
         });
