@@ -18,3 +18,4 @@ Route::get('/', function () {
 Route::get('list', 'ListController@index');
 Route::post('list', 'ListController@create');
 Route::post('list/delete/', 'ListController@destroy');
+Route::post('list/edit/', 'ListController@edit');

@@ -49,7 +49,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-danger" id="deleteItemBtn" data-dismiss="modal" style="display: none;">Delete</button>
-                            <button type="button" class="btn btn-primary" id="saveItemBtn" style="display: none;">Save changes</button>
+                            <button type="button" class="btn btn-primary" id="saveItemBtn" style="display: none;" data-dismiss="modal">Save changes</button>
                             <button type="button" class="btn btn-primary" id="addListBtn" data-dismiss="modal">Add Item</button>
                         </div>
                     </div><!-- /.modal-content -->
@@ -98,8 +98,16 @@
                 var itemId = $('#itemIdInModal').val();
                 $.post(
                     'list/delete', { 'itemId':itemId, '_token':$('input[name=_token]').val() }, function (data) {
-                    console.log(data);
                     $('#itemsBody').load(location.href + ' #itemsBody');
+                });
+            });
+
+            $("#saveItemBtn").on('click', function(){
+                var itemId = $('#itemIdInModal').val();
+                var itemValue = $('#addListItem').val();
+                $.post(
+                        'list/edit', { 'itemId':itemId, 'itemValue':itemValue, '_token':$('input[name=_token]').val() }, function (data) {
+                        $('#itemsBody').load(location.href + ' #itemsBody');
                 });
             });
 

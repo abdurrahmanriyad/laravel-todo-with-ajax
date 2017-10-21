@@ -21,6 +21,13 @@ class ListController extends Controller
         return 'Done';
     }
 
+    public function edit(Request $request)
+    {
+        $item = Item::find($request->itemId);
+        $item->item = $request->itemValue;
+        $item->save();
+    }
+
     public function destroy(Request $request)
     {
         Item::destroy($request->itemId);
